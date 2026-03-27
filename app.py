@@ -64,8 +64,9 @@ if files:
 st.divider()
 st.caption("Herramienta creada para la comunidad de diseñadores de LATAM.")
 
-# --- BOTÓN FLOTANTE DE KO-FI ---
-kofi_button = """
+# --- BOTÓN FLOTANTE DE KO-FI (Versión Forzada) ---
+kofi_html = """
+<div id="kofi-container"></div>
 <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
 <script>
   kofiWidgetOverlay.draw('armandorangel76306', {
@@ -75,5 +76,11 @@ kofi_button = """
     'floating-chat.donateButton.text-color': '#fff'
   });
 </script>
+<style>
+  /* Forzamos que el iframe tenga prioridad visual */
+  .floating-chat-kofi-popup-iframe { z-index: 999999 !important; }
+</style>
 """
-components.html(kofi_button, height=0)
+
+# Usamos un contenedor con un pequeño alto para asegurar que el script se dispare
+components.html(kofi_html, height=100)
