@@ -17,7 +17,21 @@ with st.sidebar:
     st.header("Configuración")
     ancho_max = st.slider("Ancho máximo (píxeles)", 800, 2560, 1920)
     calidad = st.slider("Calidad visual", 10, 100, 85)
-
+st.divider()
+    st.write("### 🚀 Hosting Recomendado")
+    
+    # Banner visual con estilo
+    st.info("""
+    **¿Buscas un Hosting rápido y con soporte real en Chile?**
+    
+    Para mis proyectos personales y de clientes uso **V2 Networks**. 
+    Precios excelentes y servidores optimizados.
+    """)
+    
+    # Botón de referido
+    st.link_button("Ver planes en V2 Networks 🇨🇱", "https://clientes.v2networks.cl/aff.php?aff=304")
+    
+    st.caption("Al contratar desde este link, apoyas el mantenimiento de esta herramienta sin costo extra para ti. ¡Gracias!")
 # Selector de archivos
 archivos_subidos = st.file_uploader("Arrastra tus fotos aquí", type=['png', 'jpg', 'jpeg'], accept_multiple_files=True)
 
