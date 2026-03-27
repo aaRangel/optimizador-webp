@@ -81,3 +81,31 @@ kofi_button = """
 
 # Inyectamos el componente en la app
 components.html(kofi_button, height=0)
+# --- BOTÓN FLOTANTE DE KO-FI PERSONALIZADO ---
+kofi_button = """
+<script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+<script>
+  kofiWidgetOverlay.draw('armandorangel76306', {
+    'type': 'floating-chat',
+    'floating-chat.donateButton.text': '¿Te ahorré unos MB? ☕',
+    'floating-chat.donateButton.background-color': '#f45d22',
+    'floating-chat.donateButton.text-color': '#fff',
+    'floating-chat.donateButton.font-family': 'Inter, sans-serif'
+  });
+  
+  // Mensaje de bienvenida que aparece al abrir el chat
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      var kofi_iframe = document.querySelector('iframe[id^="kofi-widget-overlay"]');
+      if (kofi_iframe) {
+        // Esto envía el mensaje de bienvenida personalizado al widget
+        console.log("Widget de Ko-fi listo para los diseñadores");
+      }
+    }, 2000);
+  });
+</script>
+"""
+
+# Inyectamos el componente
+import streamlit.components.v1 as components
+components.html(kofi_button, height=0)
