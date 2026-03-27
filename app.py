@@ -2,7 +2,7 @@ import streamlit as st
 from PIL import Image
 import io
 import zipfile
-
+import streamlit.components.v1 as components
 # Configuración de la página
 st.set_page_config(page_title="Optimizador WebP Pro", page_icon="🖼️")
 
@@ -66,3 +66,18 @@ if archivos_subidos:
             file_name="imagenes_optimizadas.zip",
             mime="application/zip"
         )
+# --- BOTÓN FLOTANTE DE KO-FI (Al final del archivo) ---
+kofi_button = """
+<script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+<script>
+  kofiWidgetOverlay.draw('armandorangel76306', {
+    'type': 'floating-chat',
+    'floating-chat.donateButton.text': 'Apóyame con un café',
+    'floating-chat.donateButton.background-color': '#f45d22',
+    'floating-chat.donateButton.text-color': '#fff'
+  });
+</script>
+"""
+
+# Inyectamos el componente en la app
+components.html(kofi_button, height=0)
