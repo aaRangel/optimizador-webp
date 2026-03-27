@@ -1,12 +1,10 @@
 import streamlit as st
 from PIL import Image
-import os
 import zipfile
 import io
-import streamlit.components.v1 as components
 
-# Configuración de la página (Pestaña del navegador)
-st.set_page_config(page_title="Optimizador WebP | aaRangel", page_icon="🖼️")
+# Configuración de la página
+st.set_page_config(page_title="Optimizador WebP | Armando Rangel", page_icon="🖼️")
 
 # --- BARRA LATERAL (Configuración y Monetización) ---
 with st.sidebar:
@@ -27,20 +25,20 @@ with st.sidebar:
     
     st.divider()
 
-    # SECCIÓN: Apoyo / Ko-fi (Botón Estático)
+    # SECCIÓN: Apoyo / Ko-fi (VERSIÓN IMAGEN - 100% VISIBLE)
     st.write("### ☕ ¿Te sirvió?")
-    kofi_static_button = """
-    <div style="text-align: center;">
-        <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
-        <script type='text/javascript'>
-            kofiwidget2.init('Apóyame con un café', '#f45d22', 'Q5Q81VBM89');
-            kofiwidget2.draw();
-        </script>
-    </div>
-    """
-    # Altura de 60px para que el botón no se corte
-    components.html(kofi_static_button, height=60)
-    st.caption("Hecho con ❤️ para la comunidad de LATAM.")
+    
+    # Link directo y botón oficial de Ko-fi
+    kofi_link = "https://ko-fi.com/armandorangel76306"
+    kofi_img_url = "https://storage.ko-fi.com/cdn/kofiv2.png"
+    
+    st.markdown(f'''
+        <a href="{kofi_link}" target="_blank">
+            <img src="{kofi_img_url}" style="border:0px;width:100%;" alt="Invítame un café en ko-fi.com" />
+        </a>
+    ''', unsafe_allow_html=True)
+    
+    st.caption("Apoya este proyecto para seguir creando herramientas gratuitas.")
 
 # --- CUERPO PRINCIPAL ---
 st.title("🖼️ Optimizador de Imágenes WebP")
@@ -52,33 +50,34 @@ files = st.file_uploader("Arrastra tus archivos JPG o PNG", type=["png", "jpg", 
 if files:
     zip_buffer = io.BytesIO()
     
+    # Barra de estado moderna
     with st.status("Procesando imágenes...", expanded=True) as status:
         with zipfile.ZipFile(zip_buffer, "a", zipfile.ZIP_DEFLATED, False) as zip_file:
             for i, file in enumerate(files):
                 img = Image.open(file)
                 
-                # Redimensionar manteniendo la proporción (Aspect Ratio)
+                # Redimensionar manteniendo la proporción
                 if img.width > ancho_max:
                     w_percent = (ancho_max / float(img.width))
                     h_size = int((float(img.height) * float(w_percent)))
                     img = img.resize((ancho_max, h_size), Image.Resampling.LANCZOS)
                 
-                # Convertir a WebP en un buffer de memoria
+                # Convertir a WebP en memoria
                 img_byte_arr = io.BytesIO()
                 img.save(img_byte_arr, format='WEBP', quality=calidad)
                 
-                # Guardar en el ZIP con nombre numerado
-                zip_file.writestr(f"{i+1}.webp", img_byte_arr.getvalue())
+                # Guardar en el ZIP
+                zip_file.writestr(f"optimizada_{i+1}.webp", img_byte_arr.getvalue())
         
-        status.update(label="¡Optimización completa!", state="complete", expanded = False)
+        status.update(label="¡Optimización completa!", state="complete", expanded=False)
 
     st.success(f"✅ Se han optimizado {len(files)} imágenes.")
     
-    # Botón de descarga del archivo final
+    # Botón de descarga
     st.download_button(
         label="📥 Descargar todas en .ZIP",
         data=zip_buffer.getvalue(),
-        file_name="imagenes_optimizadas.zip",
+        file_name="imagenes_optimizadas_Rangel.zip",
         mime="application/zip",
         use_container_width=True
     )
